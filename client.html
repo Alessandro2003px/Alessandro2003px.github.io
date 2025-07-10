@@ -1,4 +1,28 @@
-function initMap() {
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Colored SVG Circles on Google Maps</title>
+    <style>
+      #map {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjC4LSeKJD5o71luH52putUo3ReHt1CoU&callback=initMap"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // SVG path for a circle of radius 10 centered at (0,0)
+      // M -10,0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0
+      const CIRCLE_SVG = 'M -10,0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0';
+
+     function initMap() {
     const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 44.49554944757558, lng: 11.342902418112871 },
         zoom: 13,
@@ -63,3 +87,29 @@ function initMap() {
         console.error('Geolocation is not supported by this browser.');
     }
 }
+
+        const points = [
+          { pos: { lat: 44.446629637635084,lng: 11.436672872465717 }, color: 'yellow', stroke: 'lightblue' },
+          { pos: { lat: 44.439445841515614, lng: 11.44119128207126 }, color: 'red', stroke: 'lightblue' },
+          { pos: { lat: 44.43602140926186, lng: 11.435730701688835}, color: 'green', stroke: 'lightblue' },
+        ];
+
+        points.forEach(p =>
+          new google.maps.Marker({
+            map,
+            position: p.pos,
+            icon: {
+              path: CIRCLE_SVG,
+              fillColor: p.color,
+              fillOpacity: 1,
+              strokeColor: p.stroke,
+              strokeWeight: 2,
+              scale: 1, // Adjust size
+              anchor: new google.maps.Point(0, 0), // Center circle on position
+            },
+          })
+        );
+      }
+    </script>
+  </body>
+</html>
